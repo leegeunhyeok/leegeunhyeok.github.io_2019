@@ -18,8 +18,11 @@ export default {
 <style lang="scss">
 @import '@/styles/common.scss';
 
+@import url('https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap');
+
 * {
   box-sizing: border-box;
+  font-family: 'Do Hyeon', sans-serif;
 }
 
 html, body {
