@@ -9,7 +9,9 @@ const IMMUTABLE_APPSHELL = [
 // 자주 변동되는 데이터
 const MUTABLE_APPSHELL = [
   '/',
-  '/manifest.json'
+  '/manifest.json',
+  '/data/activity.json',
+  '/data/project.json'
 ]
 
 const CACHE_LIST = IMMUTABLE_APPSHELL.concat(MUTABLE_APPSHELL)
