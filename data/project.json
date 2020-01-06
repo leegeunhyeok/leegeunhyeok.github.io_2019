@@ -1,0 +1,24 @@
+[
+  {
+    "name": "BitMiner",
+    "date": "2017",
+    "tags": [
+      "Electron",
+      "Vue.js"
+    ],
+    "url": "https://github.com/leegeunhyeok/BitMiner",
+    "summary": "코인을 채굴하고, 장비를 업그레이드하고, 돈을 모아보세요!",
+    "detail": [
+      {
+        "title": "최고의 채굴 장비를 만들어보세요",
+        "description": "장비를 업그레이드하고 더 많은 코인을 얻을 수 있습니다.",
+        "image": "1_bitminer-1.jpg"
+      },
+      {
+        "title": "다양하고 강력한 장비를 모아보세요",
+        "description": "돈을 모아 더 좋은 장비를 구매할 수 있습니다.",
+        "image": "1_bitminer-2.jpg"
+      }
+    ]
+  }
+]
