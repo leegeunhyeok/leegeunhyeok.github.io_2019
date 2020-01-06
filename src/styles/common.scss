@@ -1,0 +1,35 @@
+$media-prefix: (
+  xs: 375px,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+ 
+// $media-prefix에서 지정한 $name의 값 반환
+// 만약 해당하는 $name의 값이 없을 경우 null 반환
+@function get-width($name) {
+  $width: map-get($media-prefix, $name);
+  @return if($width != 0, $width, null);
+}
+ 
+// 미디어쿼리 믹스인
+@mixin screen-width ($name) {
+  $width: get-width($name);
+  @if $width {
+    @media only screen and (max-width: $width) {
+      @content;
+    }
+  } @else {
+    @content;
+  }
+}
+
+@mixin wh-100 {
+  width: 100%;
+  height: 100%;
+}
+
+$primary: #408cea;
+$secondary: #bbd2ec;
+$text: #46506e;

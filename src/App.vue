@@ -1,28 +1,34 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <Loading/>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import Loading from './components/Loading.vue'
 
 export default {
   name: 'app',
   components: {
-    HelloWorld
+    Loading
   }
 }
 </script>
 
 <style lang="scss">
+@import '@/styles/common.scss';
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  @include wh-100;
+  padding: 0;
+  margin: 0;
+}
+
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  @include wh-100;
 }
 </style>
