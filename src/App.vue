@@ -1,26 +1,27 @@
 <template>
   <div id="app">
-    <transition :name="transition" mode="out-in">
+    <transition :name="transition">
       <Loading @load="onLoad" v-if="view === 'loading'"/>
-      <div v-if="view === 'main'">
-        Hello
-      </div>
+      <Main :headerTransparent="headerTransparent" v-if="view === 'main'"/>
     </transition>
   </div>
 </template>
 
 <script>
 import Loading from './views/Loading.vue'
+import Main from './views/Main.vue'
 
 export default {
   name: 'app',
   components: {
-    Loading
+    Loading,
+    Main
   },
   data () {
     return {
       view: 'loading',
-      transition: 'loading'
+      transition: 'loading',
+      headerTransparent: true
     }
   },
   methods: {
@@ -52,37 +53,33 @@ html, body {
 
 #app {
   @include wh-100;
+  position: relative;
 }
 
 .loading {
   &-enter-active {
-    z-index: 1;
-    transition: .4s;
+    transition: .5s;
   }
 
   &-leave-active {
-    z-index: 0;
-    transition: .39s;
-  }
-
-  &-leave-to {
-    z-index: 0;
-    transform: translateY(-50%);
+    transition: .5s;
   }
 
   &-leave {
     z-index: 0;
-    transform: translateY(0);
+  }
+
+  &-leave-to {
+    transform: translateY(calc(300px - 100%));
   }
 
   &-enter {
     z-index: 1;
-    transform: translateY(50%);
+    opacity: 0;
   }
 
   &-enter-to {
-    z-index: 1;
-    transform: translateY(100%);
+    opacity: 1;
   }
 }
 

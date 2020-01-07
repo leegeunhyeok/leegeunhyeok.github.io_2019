@@ -1,5 +1,5 @@
 <template>
-  <div class="header" :style="headerBackground">
+  <div class="header">
     <div class="header__wrap">
       <div class="header__wrap__item"
         @click="scrollTo('about')"
@@ -19,20 +19,9 @@ import animateScrollTo from 'animated-scroll-to'
 
 export default {
   name: 'headerMenu',
-  props: {
-    transparent: Boolean
-  },
   data () {
     return {
       scrolling: false
-    }
-  },
-  computed: {
-    headerBackground () {
-      const opacity = this.transparent ? 0 : 1
-      return {
-        'background-color': `rgba(64, 140, 234, ${opacity})`
-      }
     }
   },
   methods: {
