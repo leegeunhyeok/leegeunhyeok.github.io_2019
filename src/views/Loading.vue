@@ -93,7 +93,6 @@ export default {
     axios.all([ activityReq, projectReq ])
       .then(axios.spread((...responses) => {
         const db = dataStore()
-        console.log(responses[0])
         const activityData = responses[0].data || []
         const projectData = responses[1].data || []
 
