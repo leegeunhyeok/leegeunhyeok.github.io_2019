@@ -65,7 +65,7 @@ export default {
           'transform': 'translateY(0%)'
         }
       } else {
-        const style = `translateY(${100 - this.loadPercent}%)`
+        const style = `translateY(${100 - 100}%)`
         return {
           '-webkit-transform': style,
           'transform': style
@@ -140,7 +140,8 @@ export default {
       }))
       .catch(e => {
         console.error(e)
-        this.error = true
+        // this.error = true
+        this.$emit('load')
       })
   },
   methods: {
@@ -189,6 +190,7 @@ export default {
 
   &__wave {
     @include wh-100;
+    background-color: $primary;
     -webkit-transition: transform .3s ease-out;
             transition: transform .3s ease-out;
 

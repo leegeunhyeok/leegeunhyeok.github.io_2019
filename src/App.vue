@@ -1,16 +1,35 @@
 <template>
   <div id="app">
-    <Loading/>
+    <transition :name="transition" mode="out-in">
+      <Loading @load="onLoad" v-if="view === 'loading'"/>
+      <div v-if="view === 'main'">
+        Hello
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
-import Loading from './components/Loading.vue'
+import Loading from './views/Loading.vue'
 
 export default {
   name: 'app',
   components: {
     Loading
+  },
+  data () {
+    return {
+      view: 'loading',
+      transition: 'loading'
+    }
+  },
+  methods: {
+    onLoad () {
+      this.view = 'main'
+      setTimeout(() => {
+        this.transition = 'fade'
+      }, 500)
+    }
   }
 }
 </script>
@@ -33,5 +52,47 @@ html, body {
 
 #app {
   @include wh-100;
+}
+
+.loading {
+  &-enter-active {
+    z-index: 1;
+    transition: .4s;
+  }
+
+  &-leave-active {
+    z-index: 0;
+    transition: .39s;
+  }
+
+  &-leave-to {
+    z-index: 0;
+    transform: translateY(-50%);
+  }
+
+  &-leave {
+    z-index: 0;
+    transform: translateY(0);
+  }
+
+  &-enter {
+    z-index: 1;
+    transform: translateY(50%);
+  }
+
+  &-enter-to {
+    z-index: 1;
+    transform: translateY(100%);
+  }
+}
+
+.fade {
+  &-enter-active, &-leave-active {
+    transition: opacity .4s;
+  }
+
+  &-enter, &-leave-to {
+    opacity: 0;
+  }
 }
 </style>
