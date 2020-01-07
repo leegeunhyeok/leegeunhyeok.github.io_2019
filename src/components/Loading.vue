@@ -21,6 +21,9 @@
 </template>
 
 <script>
+import axios from 'axios'
+import dataStore from '@/data-store'
+
 export default {
   name: 'Loading',
   data () {
@@ -47,6 +50,33 @@ export default {
         'transform': style
       }
     }
+  },
+  created () {
+    const activityReq = axios.get('/data/activity.json')
+    const projectReq = axios.get('/data/project.json')
+    axios.all([ activityReq, projectReq ])
+      .then(axios.spread((...responses) => {
+        const db = dataStore()
+        const activityData = responses[0]
+        const projectData = responses[1]
+
+        activityData.map((activity, idx) => {
+          return db.saveActivity({
+            id: idx,
+            ...activity
+          })
+        })
+
+        projectData.map((project, idx) => {
+          return db.saveProject({
+            id: idx,
+            ...project
+          })
+        })
+      }))
+      .catch(e => {
+        console.error(e)
+      })
   },
   mounted () {
     const load = () => {

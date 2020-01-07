@@ -3,7 +3,7 @@ const CACHE_NAME = 'ghlee-portfolio-cache_' + VERSION
 
 // 앱 셸 구성요소
 const IMMUTABLE_APPSHELL = [
-  '/images/no_image.png'
+  'https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap'
 ]
 
 // 자주 변동되는 데이터
@@ -40,9 +40,11 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url)
 
-  // 자주 변동되는 데이터 (선 캐시 후 네트워크)
+  // 자주 변동되는 데이터 (선 캐시 후 네트워크) + 캐시에 없으면 네트워크에서 가져오기
   if (MUTABLE_APPSHELL.includes(url.pathname) ||
-    url.pathname.includes('.json')) {
+    url.pathname.startsWith('/images/') ||
+    url.pathname.endsWith('.json')
+  ) {
     event.respondWith(
       caches.open(CACHE_NAME).then(cache => {
         return cache.match(event.request)
