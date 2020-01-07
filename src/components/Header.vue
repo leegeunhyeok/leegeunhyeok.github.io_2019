@@ -49,6 +49,8 @@ export default {
   width: 100%;
   height: 50px;
   color: #ffffff;
+  background-color: $primary;
+  z-index: 9998;
 
   &__wrap {
     line-height: 50px;
