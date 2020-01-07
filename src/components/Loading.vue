@@ -120,27 +120,27 @@ export default {
             transition: transform .3s ease-out;
 
     & .parallax > use {
-      animation: wave 10s cubic-bezier(.55, .5, .45, .5) infinite;
+      animation: wave 1s cubic-bezier(.55, .5, .45, .5) infinite;
     }
 
     & .parallax > use:nth-child(1) {
       animation-delay: -2s;
-      animation-duration: 7s;
+      animation-duration: 1s;
     }
 
     & .parallax > use:nth-child(2) {
       animation-delay: -3s;
-      animation-duration: 10s;
+      animation-duration: 1.5s;
     }
 
     & .parallax > use:nth-child(3) {
       animation-delay: -4s;
-      animation-duration: 13s;
+      animation-duration: 2s;
     }
 
     & .parallax > use:nth-child(4) {
       animation-delay: -5s;
-      animation-duration: 20s;
+      animation-duration: 2.5s;
     }
 
     svg {
