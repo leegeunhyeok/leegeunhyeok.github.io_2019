@@ -154,6 +154,7 @@ export default {
           })
       }))
       .catch(e => {
+        console.error(e)
         const db = dataStore()
         const data = {}
 
