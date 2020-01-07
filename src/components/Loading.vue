@@ -7,15 +7,26 @@
           <path id="wave" d="M-160 44c30 0 58-18 88-18s 58 18 88 18 58-18 88-18 58 18 88 18 v44h-352z"/>
         </defs>
         <g class="parallax">
-          <use xlink:href="#wave" x="48" y="0" fill="rgba(64, 140, 234, .7)"/>
-          <use xlink:href="#wave" x="48" y="3" fill="rgba(64, 140, 234, .5)"/>
-          <use xlink:href="#wave" x="48" y="5" fill="rgba(64, 140, 234, .3)"/>
-          <use xlink:href="#wave" x="48" y="7" fill="rgba(64, 140, 234, 1)"/>
+          <use xlink:href="#wave" x="48" y="0"
+            :fill="currentWaveColor + ', .7)'"
+          />
+          <use xlink:href="#wave" x="48" y="3"
+            :fill="currentWaveColor + ', .5)'"
+          />
+          <use xlink:href="#wave" x="48" y="5"
+            :fill="currentWaveColor + ', .3)'"
+          />
+          <use xlink:href="#wave" x="48" y="7"
+            :fill="currentWaveColor + ', 1)'"
+          />
         </g>
       </svg>
     </div>
-    <div class="loading__text" :style="textStyle">
-      {{ loadPercent }}%
+    <div class="loading__text" :style="textStyle" v-if="error">
+      Error
+    </div>
+    <div class="loading__text" :style="textStyle" v-else>
+      {{ currentPercent }}%
     </div>
   </div>
 </template>
@@ -28,12 +39,15 @@ export default {
   name: 'Loading',
   data () {
     return {
-      loadPercent: 0
+      loadPercent: 0,
+      imageCount: 0,
+      imageLoaded: 0,
+      error: false
     }
   },
   computed: {
     textStyle () {
-      if (this.loadPercent < 45) {
+      if (this.loadPercent < 45 && !this.error) {
         return {
           color: '#408cea'
         }
@@ -44,11 +58,29 @@ export default {
       }
     },
     waveStyle () {
-      const style = `translateY(${100 - this.loadPercent}%)`
-      return {
-        '-webkit-transform': style,
-        'transform': style
+      if (this.error) {
+        return {
+          'background-color': 'tomato',
+          '-webkit-transform': 'translateY(0%)',
+          'transform': 'translateY(0%)'
+        }
+      } else {
+        const style = `translateY(${100 - this.loadPercent}%)`
+        return {
+          '-webkit-transform': style,
+          'transform': style
+        }
       }
+    },
+    currentWaveColor () {
+      if (this.error) {
+        return 'rgba(255, 99, 71'
+      } else {
+        return 'rgba(64, 140, 234'
+      }
+    },
+    currentPercent () {
+      return parseInt(this.imageLoaded / this.imageCount * 100)
     }
   },
   created () {
@@ -60,35 +92,77 @@ export default {
         const activityData = responses[0]
         const projectData = responses[1]
 
-        activityData.map((activity, idx) => {
-          return db.saveActivity({
-            id: idx,
-            ...activity
-          })
+        const activityPromises = activityData.map((activity, idx) => {
+          let fetchImage = Promise.resolve()
+          if (activity.image) {
+            ++this.imageCount
+            fetchImage = this.imagePreloader('/images/' + activity.image)
+          }
+
+          return Promise.all([
+            db.saveActivity({
+              id: idx,
+              ...activity
+            }),
+            fetchImage
+          ])
         })
 
-        projectData.map((project, idx) => {
-          return db.saveProject({
-            id: idx,
-            ...project
+        const projectPromises = projectData.map((project, idx) => {
+          let fetchImage = Promise.resolve()
+          const fetchList = []
+
+          if (project.image) {
+            ++this.imageCount
+            fetchImage = this.imagePreloader('/images/' + project.image)
+          }
+
+          (project.detail || []).forEach(d => {
+            if (d.image) {
+              ++this.imageCount
+              fetchList.push(this.imagePreloader('/images/' + project.image))
+            }
           })
+
+          return Promise.all([
+            db.saveProject({
+              id: idx,
+              ...project
+            }),
+            ...[ fetchImage ].concat(fetchList)
+          ])
         })
+
+        Promise.all([ ...activityPromises, ...projectPromises ])
+          .then(() => {
+            this.$emit('load')
+          })
       }))
       .catch(e => {
         console.error(e)
+        this.error = true
       })
   },
-  mounted () {
-    const load = () => {
-      if (this.loadPercent < 100) {
-        setTimeout(() => {
-          this.loadPercent += 5
-          load()
-        }, 100)
-      }
-    }
+  methods: {
+    imagePreloader (src) {
+      return new Promise((resolve, reject) => {
+        const _resolve = () => {
+          ++this.imageLoaded
+          resolve()
+        }
 
-    load()
+        const img = new Image()
+        img.src = src
+        img.onload = () => {
+          _resolve()
+        }
+
+        img.onerror = e => {
+          console.error(e)
+          _resolve()
+        }
+      })
+    }
   }
 }
 </script>
@@ -115,7 +189,6 @@ export default {
 
   &__wave {
     @include wh-100;
-    background-color: $primary;
     -webkit-transition: transform .3s ease-out;
             transition: transform .3s ease-out;
 
