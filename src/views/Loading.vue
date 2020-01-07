@@ -125,7 +125,7 @@ export default {
           (project.detail || []).forEach(d => {
             if (d.image) {
               ++this.imageCount
-              fetchList.push(this.imagePreloader('/images/' + project.image))
+              fetchList.push(this.imagePreloader('/images/' + d.image))
             }
           })
 
@@ -172,7 +172,10 @@ export default {
               throw new Error('No project data')
             }
             data.project = projects
-            this.$emit('load', data)
+
+            setTimeout(() => {
+              this.$emit('load', data)
+            }, 750)
           })
           .catch(e => {
             console.error(e)
