@@ -35,12 +35,16 @@
 import axios from 'axios'
 import dataStore from '@/data-store'
 
+const STATIC_FILELIST = [
+  '/images/me.jpg'
+]
+
 export default {
   name: 'Loading',
   data () {
     return {
       loadPercent: 0,
-      imageCount: 0,
+      imageCount: STATIC_FILELIST.length,
       imageLoaded: 0,
       error: false
     }
@@ -80,7 +84,7 @@ export default {
       }
     },
     currentPercent () {
-      return parseInt(this.imageLoaded / this.imageCount * 100)
+      return parseInt(this.imageLoaded / this.imageCount * 100) || 0
     }
   },
   created () {
@@ -133,15 +137,45 @@ export default {
           ])
         })
 
-        Promise.all([ ...activityPromises, ...projectPromises ])
+        const staticPromises = STATIC_FILELIST.map(resource => {
+          return this.imagePreloader(resource)
+        })
+
+        Promise.all([
+          ...activityPromises,
+          ...projectPromises,
+          ...staticPromises
+        ])
           .then(() => {
-            this.$emit('load')
+            this.$emit('load', {
+              activity: activityData,
+              project: projectData
+            })
           })
       }))
       .catch(e => {
-        console.error(e)
-        // this.error = true
-        this.$emit('load')
+        const db = dataStore()
+        const data = {}
+
+        db.getActivities()
+          .then(activities => {
+            if (!activities.length) {
+              throw new Error('No activity data')
+            }
+            data.activity = activities
+            return db.getProjects()
+          })
+          .then(projects => {
+            if (!projects.length) {
+              throw new Error('No project data')
+            }
+            data.project = projects
+            this.$emit('load', data)
+          })
+          .catch(e => {
+            console.error(e)
+            this.error = true
+          })
       })
   },
   methods: {
@@ -173,6 +207,8 @@ export default {
 .loading {
   @include wh-100;
   position: relative;
+  top: 0;
+  left: 0;
   background-color: #ffffff;
   overflow: hidden;
 
