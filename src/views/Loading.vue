@@ -93,8 +93,9 @@ export default {
     axios.all([ activityReq, projectReq ])
       .then(axios.spread((...responses) => {
         const db = dataStore()
-        const activityData = responses[0]
-        const projectData = responses[1]
+        console.log(responses[0])
+        const activityData = responses[0].data || []
+        const projectData = responses[1].data || []
 
         const activityPromises = activityData.map((activity, idx) => {
           let fetchImage = Promise.resolve()
