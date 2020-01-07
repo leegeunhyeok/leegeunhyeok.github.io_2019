@@ -142,11 +142,13 @@ export default {
     width: 100%;
     max-width: 800px;
     margin: auto;
+    padding-bottom: 4rem;
 
     &__delay {
       width: 100%;
       max-width: 800px;
       margin: auto;
+      padding-bottom: 4rem;
       opacity: 0;
       -webkit-animation: fade 1s .5s forwards;
               animation: fade 1s .5s forwards;
@@ -175,6 +177,7 @@ export default {
 
   &__name {
     color: $text;
+    font-size: 1.5rem;
 
     &--en {
       color: transparentize($text, 0.3);
