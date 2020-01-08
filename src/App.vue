@@ -24,6 +24,10 @@ export default {
       headerTransparent: true
     }
   },
+  created () {
+    const v = process.env.VERSION
+    console.log('Build version:', v)
+  },
   methods: {
     onLoad () {
       this.view = 'main'
