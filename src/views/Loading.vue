@@ -25,7 +25,7 @@
     <div class="loading__text" :style="textStyle" v-if="error">
       Error
     </div>
-    <transition name="fade">
+    <transition name="fade" mode="out-in">
       <div class="loading__text" :style="textStyle" v-if="!error && !loaded">
         {{ currentPercent }}%
       </div>
@@ -139,7 +139,7 @@ export default {
           .then(async () => {
             await delay(500)
             this.loaded = true
-            await delay(1000)
+            await delay(100)
             this.$emit('load', {
               activity: activityData,
               project: projectData
@@ -148,6 +148,7 @@ export default {
       }))
       .catch(e => {
         console.error(e)
+        this.error = true
       })
   },
   methods: {
@@ -199,8 +200,8 @@ export default {
   &__wave {
     @include wh-100;
     background-color: $primary;
-    -webkit-transition: transform .3s ease-out;
-            transition: transform .3s ease-out;
+    -webkit-transition: transform .5s ease-out;
+            transition: transform .5s ease-out;
 
     & .parallax > use {
       animation: wave 1s cubic-bezier(.55, .5, .45, .5) infinite;
@@ -239,6 +240,16 @@ export default {
   }
   100% {
     transform: translate3d(85px, 0, 0);
+  }
+}
+
+.fade {
+  &-enter-active, &-leave-active {
+    transition: opacity .4s;
+  }
+
+  &-enter, &-leave-to {
+    opacity: 0;
   }
 }
 </style>
