@@ -25,16 +25,19 @@
     <div class="loading__text" :style="textStyle" v-if="error">
       Error
     </div>
-    <div class="loading__text" :style="textStyle" v-else>
-      {{ currentPercent }}%
-    </div>
+    <transition name="fade">
+      <div class="loading__text" :style="textStyle" v-if="!error && !loaded">
+        {{ currentPercent }}%
+      </div>
+    </transition>
   </div>
 </template>
 
 <script>
 import axios from 'axios'
-import dataStore from '@/data-store'
+import { delay } from '@/util'
 
+// 정적 파일 목록
 const STATIC_FILELIST = [
   '/images/me.jpg'
 ]
@@ -43,7 +46,7 @@ export default {
   name: 'Loading',
   data () {
     return {
-      loadPercent: 0,
+      loaded: false,
       imageCount: STATIC_FILELIST.length,
       imageLoaded: 0,
       error: false
@@ -51,7 +54,7 @@ export default {
   },
   computed: {
     textStyle () {
-      if (this.loadPercent < 45 && !this.error) {
+      if (this.currentPercent < 45 && !this.error) {
         return {
           color: '#408cea'
         }
@@ -69,7 +72,7 @@ export default {
           'transform': 'translateY(0%)'
         }
       } else {
-        const style = `translateY(${100 - 100}%)`
+        const style = `translateY(${100 - this.currentPercent}%)`
         return {
           '-webkit-transform': style,
           'transform': style
@@ -92,7 +95,6 @@ export default {
     const projectReq = axios.get('/data/project.json')
     axios.all([ activityReq, projectReq ])
       .then(axios.spread((...responses) => {
-        const db = dataStore()
         const activityData = responses[0].data || []
         const projectData = responses[1].data || []
 
@@ -103,13 +105,7 @@ export default {
             fetchImage = this.imagePreloader('/images/' + activity.image)
           }
 
-          return Promise.all([
-            db.saveActivity({
-              id: idx,
-              ...activity
-            }),
-            fetchImage
-          ])
+          return fetchImage
         })
 
         const projectPromises = projectData.map((project, idx) => {
@@ -128,13 +124,7 @@ export default {
             }
           })
 
-          return Promise.all([
-            db.saveProject({
-              id: idx,
-              ...project
-            }),
-            ...[ fetchImage ].concat(fetchList)
-          ])
+          return Promise.all([ fetchImage ].concat(fetchList))
         })
 
         const staticPromises = STATIC_FILELIST.map(resource => {
@@ -146,7 +136,10 @@ export default {
           ...projectPromises,
           ...staticPromises
         ])
-          .then(() => {
+          .then(async () => {
+            await delay(500)
+            this.loaded = true
+            await delay(1000)
             this.$emit('load', {
               activity: activityData,
               project: projectData
@@ -155,31 +148,6 @@ export default {
       }))
       .catch(e => {
         console.error(e)
-        const db = dataStore()
-        const data = {}
-
-        db.getActivities()
-          .then(activities => {
-            if (!activities.length) {
-              throw new Error('No activity data')
-            }
-            data.activity = activities
-            return db.getProjects()
-          })
-          .then(projects => {
-            if (!projects.length) {
-              throw new Error('No project data')
-            }
-            data.project = projects
-
-            setTimeout(() => {
-              this.$emit('load', data)
-            }, 750)
-          })
-          .catch(e => {
-            console.error(e)
-            this.error = true
-          })
       })
   },
   methods: {

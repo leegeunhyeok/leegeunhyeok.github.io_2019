@@ -26,6 +26,7 @@
 
 <script>
 import Header from '@/components/Header'
+import { delay } from '@/util'
 
 const MESSAGE_LIST = [
   'Hello, World!',
@@ -49,42 +50,41 @@ export default {
     setTimeout(this.updateMessage, 500)
     window.addEventListener('scroll', this.onScroll)
   },
+  beforeDestroy () {
+    window.removeEventListener('scroll', this.onScroll)
+  },
   methods: {
     updateMessage () {
       this.messageWriting = true
       const currentMessage = MESSAGE_LIST[this.messageIndex].split('')
       currentMessage.reduce((p, c, idx) => {
-        return p.then(() => {
+        return p.then(async () => {
           if (currentMessage.length - 1 === idx) {
-            setTimeout(() => {
-              this.messageWriting = false
-            }, 300)
-            setTimeout(this.removeMessage, 2200)
+            await delay(300)
+            this.messageWriting = false
+            await delay(1900)
+            this.removeMessage()
           }
 
-          return new Promise(resolve => {
-            setTimeout(() => {
-              this.message += c
-              resolve()
-            }, 160)
-          })
+          await delay(160)
+          this.message += c
         })
       }, Promise.resolve())
     },
-    removeMessage () {
+    async removeMessage () {
       this.messageWriting = true
       if (this.message.length) {
-        setTimeout(() => {
-          this.message = this.message.slice(0, this.message.length - 1)
-          this.removeMessage()
-        }, 80)
+        await delay(80)
+        this.message = this.message.slice(0, this.message.length - 1)
+        this.removeMessage()
       } else {
         if (this.messageIndex + 1 === MESSAGE_LIST.length) {
           this.messageIndex = 0
         } else {
           this.messageIndex = this.messageIndex + 1
         }
-        setTimeout(this.updateMessage, 400)
+        await delay(400)
+        this.updateMessage()
       }
     }
   }
