@@ -56,8 +56,11 @@ export default {
   methods: {
     updateMessage () {
       this.messageWriting = true
-      const currentMessage = MESSAGE_LIST[this.messageIndex].split('')
-      currentMessage.concat(['']).reduce((p, c, idx) => {
+      const currentMessage = MESSAGE_LIST[this.messageIndex]
+        .split('')
+        .concat([''])
+
+      currentMessage.reduce((p, c, idx) => {
         return p.then(async () => {
           if (currentMessage.length - 1 === idx) {
             await delay(300)
