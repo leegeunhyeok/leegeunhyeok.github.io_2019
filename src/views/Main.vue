@@ -56,7 +56,7 @@ export default {
   methods: {
     updateMessage () {
       this.messageWriting = true
-      const currentMessage = MESSAGE_LIST[this.messageIndex].split('')
+      const currentMessage = (MESSAGE_LIST[this.messageIndex] + '').split('')
       currentMessage.reduce((p, c, idx) => {
         return p.then(async () => {
           if (currentMessage.length - 1 === idx) {
@@ -64,6 +64,7 @@ export default {
             this.messageWriting = false
             await delay(1900)
             this.removeMessage()
+            return
           }
 
           await delay(160)
