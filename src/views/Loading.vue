@@ -167,7 +167,7 @@ export default {
           const tick = delta >= 0 ? Math.ceil(delta) : Math.floot(delta)
           this.progress += tick
         }
-      }, 20)
+      }, 10)
     },
     imagePreloader (src) {
       return new Promise((resolve, reject) => {
