@@ -34,7 +34,7 @@ export default {
       setTimeout(() => {
         document.body.classList.add('loaded')
         this.transition = 'fade'
-      }, 500)
+      }, 1000)
     }
   }
 }
