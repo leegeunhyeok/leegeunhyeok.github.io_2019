@@ -150,6 +150,7 @@ export default {
             await delay(750)
             this.loaded = true
             await delay(250)
+            document.body.classList.add('loaded')
             this.$emit('load', {
               activity: activityData,
               project: projectData

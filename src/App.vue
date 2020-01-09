@@ -55,6 +55,10 @@ html, body {
   margin: 0;
 }
 
+body.loaded {
+  background-color: $primary;
+}
+
 #app {
   @include wh-100;
   position: relative;
