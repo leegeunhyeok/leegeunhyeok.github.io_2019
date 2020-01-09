@@ -33,7 +33,7 @@ export default {
       this.view = 'main'
       setTimeout(() => {
         this.transition = 'fade'
-      }, 500)
+      }, 600)
     }
   }
 }
