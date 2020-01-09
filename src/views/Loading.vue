@@ -167,7 +167,7 @@ export default {
           const tick = delta >= 0 ? Math.ceil(delta) : Math.floot(delta)
           this.progress += tick
         }
-      }, 5)
+      }, 10)
     },
     imagePreloader (src) {
       return new Promise((resolve, reject) => {
@@ -217,8 +217,8 @@ export default {
   &__wave {
     @include wh-100;
     background-color: $primary;
-    -webkit-transition: transform .5s ease-out;
-            transition: transform .5s ease-out;
+    -webkit-transition: transform .8s ease-out;
+            transition: transform .8s ease-out;
 
     & .parallax > use {
       animation: wave 1s cubic-bezier(.55, .5, .45, .5) infinite;
