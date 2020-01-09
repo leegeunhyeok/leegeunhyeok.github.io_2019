@@ -27,7 +27,7 @@
     </div>
     <transition name="fade" mode="out-in">
       <div class="loading__text" :style="textStyle" v-if="!error && !loaded">
-        {{ currentPercent }}%
+        {{ progress }}%
       </div>
     </transition>
   </div>
@@ -49,6 +49,8 @@ export default {
       loaded: false,
       imageCount: STATIC_FILELIST.length,
       imageLoaded: 0,
+      progress: 0,
+      progressInterval: null,
       error: false
     }
   },
@@ -88,6 +90,11 @@ export default {
     },
     currentPercent () {
       return parseInt(this.imageLoaded / this.imageCount * 100) || 0
+    }
+  },
+  watch: {
+    currentPercent () {
+      this.updateProgress()
     }
   },
   created () {
@@ -152,6 +159,16 @@ export default {
       })
   },
   methods: {
+    updateProgress () {
+      clearInterval(this.progressInterval)
+      this.progressInterval = setInterval(() => {
+        if (this.progress !== this.currentPercent) {
+          const delta = (this.currentPercent - this.progress) / 10
+          const tick = delta >= 0 ? Math.ceil(delta) : Math.floot(delta)
+          this.progress += tick
+        }
+      }, 20)
+    },
     imagePreloader (src) {
       return new Promise((resolve, reject) => {
         const _resolve = () => {
