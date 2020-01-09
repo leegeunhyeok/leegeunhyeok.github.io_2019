@@ -37,6 +37,9 @@
 import axios from 'axios'
 import { delay } from '@/util'
 
+const NUMBER_ANIMATION_DURATION = 500
+const NUMBER_ANIMATION_TICK = 10
+
 // 정적 파일 목록
 const STATIC_FILELIST = [
   '/images/me.jpg'
@@ -161,13 +164,19 @@ export default {
   methods: {
     updateProgress () {
       clearInterval(this.progressInterval)
+      let div = NUMBER_ANIMATION_TICK
+
+      if (this.progress === this.currentPercent) {
+        return
+      }
+
       this.progressInterval = setInterval(() => {
         if (this.progress !== this.currentPercent) {
-          const delta = (this.currentPercent - this.progress) / 10
+          const delta = (this.currentPercent - this.progress) / div--
           const tick = delta >= 0 ? Math.ceil(delta) : Math.floot(delta)
           this.progress += tick
         }
-      }, 10)
+      }, NUMBER_ANIMATION_DURATION / NUMBER_ANIMATION_TICK)
     },
     imagePreloader (src) {
       return new Promise((resolve, reject) => {
@@ -217,8 +226,8 @@ export default {
   &__wave {
     @include wh-100;
     background-color: $primary;
-    -webkit-transition: transform .8s ease-out;
-            transition: transform .8s ease-out;
+    -webkit-transition: transform .5s ease-out;
+            transition: transform .5s ease-out;
 
     & .parallax > use {
       animation: wave 1s cubic-bezier(.55, .5, .45, .5) infinite;
