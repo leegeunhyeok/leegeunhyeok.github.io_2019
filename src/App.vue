@@ -51,7 +51,6 @@ export default {
 }
 
 html, body {
-  @include wh-100;
   padding: 0;
   margin: 0;
 }
@@ -61,7 +60,6 @@ body.loaded {
 }
 
 #app {
-  @include wh-100;
   position: relative;
 }
 

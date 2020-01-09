@@ -117,10 +117,10 @@ export default {
 @import '@/styles/common.scss';
 
 .main {
-  @include wh-100;
   position: absolute;
   top: 0;
   left: 0;
+  width: 100%;
 
   body.loaded & {
     background-color: #ffffff;

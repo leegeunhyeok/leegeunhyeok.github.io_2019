@@ -205,7 +205,7 @@ export default {
 
 .loading {
   @include wh-100;
-  position: relative;
+  position: fixed;
   top: 0;
   left: 0;
   background-color: #ffffff;
