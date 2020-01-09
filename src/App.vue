@@ -25,15 +25,16 @@ export default {
     }
   },
   created () {
-    const v = process.env.VERSION
-    console.log('Build version:', v)
+    window.__VERSION__ = process.env.VERSION
   },
   methods: {
-    onLoad () {
+    onLoad (data) {
+      console.log(data) // TODO: Allocate to component data
       this.view = 'main'
       setTimeout(() => {
+        document.body.classList.add('loaded')
         this.transition = 'fade'
-      }, 600)
+      }, 500)
     }
   }
 }
