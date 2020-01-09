@@ -121,7 +121,10 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
-  background-color: #ffffff;
+
+  body.loaded & {
+    background-color: #ffffff;
+  }
 
   &__message {
     display: flex;
