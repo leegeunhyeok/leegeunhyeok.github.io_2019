@@ -144,9 +144,9 @@ export default {
           ...staticPromises
         ])
           .then(async () => {
-            await delay(500)
+            await delay(750)
             this.loaded = true
-            await delay(100)
+            await delay(250)
             this.$emit('load', {
               activity: activityData,
               project: projectData
