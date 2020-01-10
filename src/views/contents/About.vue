@@ -67,7 +67,7 @@ export default {
   text-align: center;
 
   &__image {
-    padding-top: 4rem;
+    padding-top: 2rem;
     padding-bottom: 1rem;
 
     img {
