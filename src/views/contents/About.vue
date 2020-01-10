@@ -1,7 +1,9 @@
 <template>
   <div class="about" id="about">
     <div class="about__image">
-      <img alt="ghlee" src="/images/me.jpg">
+      <img alt="ghlee" src="/images/me.jpg"
+        @click="sendProfileMessage"
+      >
     </div>
     <div class="about__name">이근혁</div>
     <div class="about__name--en">Geunhyeok LEE</div>
@@ -22,13 +24,39 @@
         <fa-icon :icon="['fab', 'instagram']"/>
         <a href="http://instagram.com/_u/__dev.ghlee/">__dev.ghlee</a>
       </div>
+      <div class="about__social__item--margin">
+        <fa-icon :icon="['fas', 'blog']"/>
+        <a href="https://blog.geundung.dev/">근둥이의 블로그</a>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
+const EASTER_EGG = [
+  '안녕하세요, 이근혁 입니다!',
+  '네, 저에요',
+  '눌러도 아무것도 없어요',
+  '정말 아무일도 없을거에요',
+  '끈기가 대단하시네요',
+  '진짜 아무것도 없지만 말리진 않을게요',
+  '...'
+]
+
 export default {
-  name: 'about '
+  name: 'aboutContent',
+  data () {
+    return {
+      profileCount: 0
+    }
+  },
+  methods: {
+    sendProfileMessage () {
+      const messageIndex = Math.min(this.profileCount++, EASTER_EGG.length - 1)
+      const message = EASTER_EGG[messageIndex]
+      this.$emit('message', message)
+    }
+  }
 }
 </script>
 
@@ -66,7 +94,7 @@ export default {
   &__social {
     margin-top: 2rem;
 
-    &__item {
+    @mixin item {
       color: transparentize($text, 0.3);
 
       svg {
@@ -84,6 +112,15 @@ export default {
         &:hover {
           text-decoration: underline;
         }
+      }
+    }
+
+    &__item {
+      @include item;
+
+      &--margin {
+        @include item;
+        margin-top: 1rem;
       }
     }
   }
