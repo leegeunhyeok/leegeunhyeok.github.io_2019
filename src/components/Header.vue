@@ -1,15 +1,15 @@
 <template>
   <div class="header">
     <div class="header__wrap">
-      <div class="header__wrap__item"
+      <a class="header__wrap__item"
         @click="scrollTo('about')"
-      >About</div>
-      <div class="header__wrap__item"
+      >About</a>
+      <a class="header__wrap__item"
         @click="scrollTo('project')"
-      >Project</div>
-      <div class="header__wrap__item"
+      >Project</a>
+      <a class="header__wrap__item"
         @click="scrollTo('activity')"
-      >Activity</div>
+      >Activity</a>
     </div>
   </div>
 </template>
@@ -63,6 +63,11 @@ export default {
       margin: 0 1rem;
       text-align: center;
       font-size: 1.2rem;
+      color: inherit;
+
+      &:visited {
+        color: inherit;
+      }
 
       &:hover {
         text-decoration: underline;
