@@ -142,17 +142,18 @@ export default {
     }
   }
 
-  &__content {
+  @mixin content {
     width: 100%;
     max-width: 800px;
     margin: auto;
     padding-bottom: 4rem;
+  }
+
+  &__content {
+    @include content;
 
     &__delay {
-      width: 100%;
-      max-width: 800px;
-      margin: auto;
-      padding-bottom: 4rem;
+      @include content;
       opacity: 0;
       -webkit-animation: fade 1s .5s forwards;
               animation: fade 1s .5s forwards;
