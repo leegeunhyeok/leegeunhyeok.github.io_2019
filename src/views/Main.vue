@@ -13,13 +13,15 @@
       </div>
     </div>
     <div class="main__content__delay">
-      <About/>
+      <About @message="onMessage"/>
     </div>
+    <Message :message="alertMessage" v-show="showAlertMessage"/>
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header'
+import Message from '@/components/Message'
 import About from '@/views/contents/About'
 import { delay } from '@/util'
 
@@ -33,10 +35,14 @@ export default {
   name: 'home',
   components: {
     Header,
+    Message,
     About
   },
   data () {
     return {
+      alertMessage: '',
+      showAlertMessage: false,
+      messageTimeout: null,
       message: '',
       messageIndex: 0,
       messageWriting: true
@@ -85,6 +91,21 @@ export default {
         }
         await delay(400)
         this.updateMessage()
+      }
+    },
+    onMessage (message) {
+      clearTimeout(this.messageTimeout)
+      if (this.showAlertMessage) {
+        this.showAlertMessage = false
+        this.messageTimeout = setTimeout(() => {
+          this.onMessage(message)
+        }, 500)
+      } else {
+        this.alertMessage = message
+        this.showAlertMessage = true
+        this.messageTimeout = setTimeout(() => {
+          this.showAlertMessage = false
+        }, 3000)
       }
     }
   }
