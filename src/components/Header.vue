@@ -5,11 +5,11 @@
         @click="scrollTo('about')"
       >About</a>
       <a class="header__wrap__item"
-        @click="scrollTo('project')"
-      >Project</a>
-      <a class="header__wrap__item"
         @click="scrollTo('activity')"
       >Activity</a>
+      <a class="header__wrap__item"
+        @click="scrollTo('project')"
+      >Project</a>
     </div>
   </div>
 </template>
