@@ -13,37 +13,14 @@
       </div>
     </div>
     <div class="main__content__delay">
-      <div class="profile" id="about">
-        <div class="profile__image">
-          <img alt="ghlee" src="/images/me.jpg">
-        </div>
-        <div class="profile__name">이근혁</div>
-        <div class="profile__name--en">Geunhyeok LEE</div>
-        <div class="profile__social">
-          <div class="profile__social__item">
-            <fa-icon :icon="['fas', 'envelope']"/>
-            <a href="mailto:dev.ghlee@gmail.com">dev.ghlee@gmail.com</a>
-          </div>
-          <div class="profile__social__item">
-            <fa-icon :icon="['fab', 'github']"/>
-            <a href="https://github.com/leegeunhyeok">leegeunhyeok</a>
-          </div>
-          <div class="profile__social__item">
-            <fa-icon :icon="['fab', 'linkedin']"/>
-            <a href="https://www.linkedin.com/in/geunhyeok-lee-89b779185/">Geunhyeok LEE</a>
-          </div>
-          <div class="profile__social__item">
-            <fa-icon :icon="['fab', 'instagram']"/>
-            <a href="http://instagram.com/_u/__dev.ghlee/">__dev.ghlee</a>
-          </div>
-        </div>
-      </div>
+      <About/>
     </div>
   </div>
 </template>
 
 <script>
 import Header from '@/components/Header'
+import About from '@/views/contents/About'
 import { delay } from '@/util'
 
 const MESSAGE_LIST = [
@@ -55,7 +32,8 @@ const MESSAGE_LIST = [
 export default {
   name: 'home',
   components: {
-    Header
+    Header,
+    About
   },
   data () {
     return {
@@ -178,60 +156,6 @@ export default {
       opacity: 0;
       -webkit-animation: fade 1s .5s forwards;
               animation: fade 1s .5s forwards;
-    }
-  }
-}
-
-.profile {
-  text-align: center;
-
-  &__image {
-    padding-top: 4rem;
-    padding-bottom: 1rem;
-
-    img {
-      width: 100%;
-      height: 100%;
-      max-width: 300px;
-      max-height: 300px;
-      min-width: 200px;
-      min-height: 200px;
-      border-radius: 50%;
-      border: 1px solid #eeeeee;
-    }
-  }
-
-  &__name {
-    color: $text;
-    font-size: 1.5rem;
-
-    &--en {
-      color: transparentize($text, 0.3);
-    }
-  }
-
-  &__social {
-    margin-top: 2rem;
-
-    &__item {
-      color: transparentize($text, 0.3);
-
-      svg {
-        margin-right: .3rem;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-
-        &:visited {
-          color: inherit;
-        }
-
-        &:hover {
-          text-decoration: underline;
-        }
-      }
     }
   }
 }
