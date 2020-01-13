@@ -108,33 +108,33 @@ export default {
         const activityData = responses[0].data || []
         const projectData = responses[1].data || []
 
-        const activityPromises = activityData.map((activity, idx) => {
-          let fetchImage = Promise.resolve()
-          if (activity.image) {
-            ++this.imageCount
-            fetchImage = this.imagePreloader('/images/' + activity.image)
-          }
-
-          return fetchImage
+        const activityPromises = []
+        const projectPromises = []
+        Object.keys(activityData).forEach(k => {
+          activityData[k].forEach(data => {
+            if (data.image) {
+              ++this.imageCount
+              activityPromises.push(
+                this.imagePreloader('/images/' + data.image)
+              )
+            }
+          })
         })
 
-        const projectPromises = projectData.map((project, idx) => {
-          let fetchImage = Promise.resolve()
-          const fetchList = []
-
+        projectData.forEach((project, idx) => {
           if (project.image) {
             ++this.imageCount
-            fetchImage = this.imagePreloader('/images/' + project.image)
+            projectPromises.push(
+              this.imagePreloader('/images/' + project.image)
+            )
           }
 
           (project.detail || []).forEach(d => {
             if (d.image) {
               ++this.imageCount
-              fetchList.push(this.imagePreloader('/images/' + d.image))
+              projectPromises.push(this.imagePreloader('/images/' + d.image))
             }
           })
-
-          return Promise.all([ fetchImage ].concat(fetchList))
         })
 
         const staticPromises = STATIC_FILELIST.map(resource => {
