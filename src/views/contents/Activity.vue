@@ -46,6 +46,10 @@ export default {
   height: 16px;
   border-radius: 50%;
   background-color: $primary;
+
+  @include screen-width(md) {
+    display: none;
+  }
 }
 
 .activity {
@@ -57,6 +61,7 @@ export default {
 
     &__title {
       color: $text;
+      word-break: keep-all;
     }
 
     a {
