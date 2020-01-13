@@ -183,7 +183,7 @@ export default {
     max-width: 800px;
     margin: auto;
     margin-bottom: 3rem;
-    padding: 2rem 0;
+    padding: 2rem 1rem;
 
     &__title {
       text-align: center;
