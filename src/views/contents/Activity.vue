@@ -38,20 +38,6 @@ export default {
 <style scoped lang="scss">
 @import '@/styles/common.scss';
 
-@mixin career-dot {
-  position: absolute;
-  display: block;
-  top: 25px;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background-color: $primary;
-
-  @include screen-width(md) {
-    display: none;
-  }
-}
-
 .activity {
   text-align: center;
 
@@ -91,32 +77,54 @@ export default {
   }
 }
 
+@mixin career-dot {
+  position: absolute;
+  display: block;
+  top: 25px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background-color: $primary;
+
+  @include screen-width(sm) {
+    right: unset !important;
+    left: -11px !important;
+  }
+}
+
+@mixin career-start-line {
+  -webkit-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
+  -moz-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
+  -ms-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
+  -o-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
+}
+
+@mixin career-end-line {
+  -webkit-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
+  -moz-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
+  -ms-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
+  -o-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
+  background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
+}
+
 .career {
   padding: 0;
 
   &__line {
     list-style-type: none;
     width: 6px;
+    margin: auto;
+    padding: 2rem 0;
     background-color: lighten($text, 50%);
 
     &:nth-child(1) {
-      -webkit-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
-      -moz-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
-      -ms-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
-      -o-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
+      @include career-start-line;
     }
 
     &:nth-last-child(1) {
-      -webkit-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
-      -moz-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
-      -ms-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
-      -o-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
-      background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
+      @include career-end-line;
     }
-
-    margin: auto;
-    padding: 2rem 0;
 
     &::after {
       content: " ";
@@ -126,18 +134,26 @@ export default {
       visibility: hidden;
     }
 
-    @include screen-width(md) {
+    @include screen-width(sm) {
       padding-bottom: 0;
+      margin: 0;
+      width: 100%;
+      background: none !important;
+      border-left: 6px solid lighten($text, 50%);
     }
 
     &:nth-child(even) .career__item{
       position: relative;
       float: right;
       text-align: right;
+      padding-left: 0;
+      padding-right: 2rem;
 
-      @include screen-width(md) {
-        text-align: center;
+      @include screen-width(sm) {
         float: none;
+        text-align: left;
+        padding-left: 2rem;
+        padding-right: 0;
       }
 
       &::before {
@@ -151,8 +167,8 @@ export default {
 
   &__item {
     position: relative;
-    width: 380px;
-    padding: 0 2rem;
+    width: 300px;
+    padding-left: 2rem;
     float: left;
     text-align: left;
 
@@ -162,47 +178,24 @@ export default {
       left: -5px;
     }
 
-    @include screen-width(md) {
-      text-align: center;
-      -webkit-transform: translateX(-50%);
-              transform: translateX(-50%);
+    @include screen-width(sm) {
+      text-align: left;
+      padding-right: 0;
+      width: 100%;
     }
 
     &__title {
       margin-bottom: 0;
-
-      @include screen-width(md) {
-        background-color: lighten($text, 50%);
-        border-top-left-radius: .5rem;
-        border-top-right-radius: .5rem;
-        padding: .5rem 0;
-      }
+      word-break: keep-all;
     }
 
     &__date {
       margin-top: 0;
       color: lighten($text, 30%);
-
-      @include screen-width(md) {
-        background-color: #fff;
-        margin: 0;
-        border-left: 1px solid lighten($text, 50%);
-        border-right: 1px solid lighten($text, 50%);
-      }
     }
 
     &__content {
       color: lighten($text, 5%);
-
-      @include screen-width(md) {
-        background-color: #fff;
-        margin: 0;
-        padding: 1rem 0;
-        border: 1px solid lighten($text, 50%);
-        border-top: 0;
-        border-bottom-left-radius: .5rem;
-        border-bottom-right-radius: .5rem;
-      }
     }
   }
 }
