@@ -1,9 +1,9 @@
 $media-prefix: (
-  xs: 375px,
-  sm: 576px,
-  md: 768px,
-  lg: 992px,
-  xl: 1200px
+  xs: 375px - 1px,
+  sm: 576px - 1px,
+  md: 768px - 1px,
+  lg: 992px - 1px,
+  xl: 1200px - 1px
 );
  
 // $media-prefix에서 지정한 $name의 값 반환
