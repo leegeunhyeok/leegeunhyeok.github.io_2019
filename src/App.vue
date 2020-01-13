@@ -2,7 +2,7 @@
   <div id="app">
     <transition :name="transition">
       <Loading @load="onLoad" v-if="view === 'loading'"/>
-      <Main :headerTransparent="headerTransparent" v-if="view === 'main'"/>
+      <Main :data="data" v-if="view === 'main'"/>
     </transition>
   </div>
 </template>
@@ -21,7 +21,7 @@ export default {
     return {
       view: 'loading',
       transition: 'loading',
-      headerTransparent: true
+      data: null
     }
   },
   created () {
@@ -29,7 +29,7 @@ export default {
   },
   methods: {
     onLoad (data) {
-      console.log(data) // TODO: Allocate to component data
+      this.data = data
       this.view = 'main'
       setTimeout(() => {
         document.body.classList.add('loaded')
