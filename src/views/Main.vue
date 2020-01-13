@@ -12,8 +12,11 @@
         <p>Code is my life.</p>
       </div>
     </div>
-    <div class="main__content__delay">
+    <div class="main__content--delay">
       <About @message="onMessage"/>
+    </div>
+    <div class="main__content">
+      <Activity :data="activity" @message="onMessage"/>
     </div>
     <Message :message="alertMessage" v-show="showAlertMessage"/>
   </div>
@@ -23,6 +26,7 @@
 import Header from '@/components/Header'
 import Message from '@/components/Message'
 import About from '@/views/contents/About'
+import Activity from '@/views/contents/Activity'
 import { delay } from '@/util'
 
 const MESSAGE_LIST = [
@@ -36,7 +40,11 @@ export default {
   components: {
     Header,
     Message,
-    About
+    About,
+    Activity
+  },
+  props: {
+    data: Object
   },
   data () {
     return {
@@ -45,8 +53,15 @@ export default {
       messageTimeout: null,
       message: '',
       messageIndex: 0,
-      messageWriting: true
+      messageWriting: true,
+      activity: [],
+      project: []
     }
+  },
+  created () {
+    const { activity, project } = this.data
+    this.activity = activity
+    this.project = project
   },
   mounted () {
     setTimeout(this.updateMessage, 500)
@@ -167,13 +182,22 @@ export default {
     width: 100%;
     max-width: 800px;
     margin: auto;
-    padding-bottom: 4rem;
+    margin-bottom: 3rem;
+    padding: 2rem 0;
+
+    &__title {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: bold;
+      color: $text;
+      margin-bottom: 2rem;
+    }
   }
 
   &__content {
     @include content;
 
-    &__delay {
+    &--delay {
       @include content;
       opacity: 0;
       -webkit-animation: fade 1s .5s forwards;
