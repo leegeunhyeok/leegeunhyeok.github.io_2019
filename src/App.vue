@@ -29,7 +29,7 @@ export default {
 
     if (process.env.NODE_ENV === 'development') {
       this.view = 'main'
-      this.transition = 'main'
+      this.transition = 'fade'
       const data = {
         activity: require('../data/activity.json'),
         project: require('../data/project.json')
