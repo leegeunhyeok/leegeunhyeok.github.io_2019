@@ -111,6 +111,10 @@ export default {
 .career {
   padding: 0;
 
+  @include screen-width(sm) {
+    padding-left: 6%;
+  }
+
   &__line {
     list-style-type: none;
     width: 6px;
