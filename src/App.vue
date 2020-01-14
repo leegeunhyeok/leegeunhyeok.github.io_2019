@@ -26,6 +26,16 @@ export default {
   },
   created () {
     window.__VERSION__ = process.env.VERSION
+
+    if (process.env.NODE_ENV === 'development') {
+      this.view = 'main'
+      this.transition = 'main'
+      const data = {
+        activity: require('../data/activity.json'),
+        project: require('../data/project.json')
+      }
+      this.onLoad(data)
+    }
   },
   methods: {
     onLoad (data) {
