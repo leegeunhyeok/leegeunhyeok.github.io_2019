@@ -1,8 +1,9 @@
-const VERSION = 'v1'
+const VERSION = 'v2'
 const CACHE_NAME = 'ghlee-portfolio-cache_' + VERSION
 
 // 앱 셸 구성요소
 const IMMUTABLE_APPSHELL = [
+  '/favicon.ico',
   'https://fonts.googleapis.com/css?family=Do+Hyeon&display=swap'
 ]
 
@@ -10,11 +11,15 @@ const IMMUTABLE_APPSHELL = [
 const MUTABLE_APPSHELL = [
   '/',
   '/manifest.json',
+  '/service-worker.js',
   '/data/activity.json',
   '/data/project.json'
 ]
 
-const CACHE_LIST = IMMUTABLE_APPSHELL.concat(MUTABLE_APPSHELL)
+// 동적 캐싱을 위한 정규표현식
+const DYNAMIC_RESOURCE = /\.(js|css|png|jpg|jpeg)/i
+
+const CACHE_LIST = [...IMMUTABLE_APPSHELL, ...MUTABLE_APPSHELL]
 
 self.addEventListener('install', () => {
   self.skipWaiting()
@@ -40,10 +45,9 @@ self.addEventListener('activate', (event) => {
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url)
 
-  // 자주 변동되는 데이터 (선 캐시 후 네트워크) + 캐시에 없으면 네트워크에서 가져오기
+  // 자주 변동되는 데이터 (선 캐시 후 네트워크) + 캐시에 없으면 네트워크에서 가져온 후 캐싱
   if (MUTABLE_APPSHELL.includes(url.pathname) ||
-    url.pathname.startsWith('/images/') ||
-    url.pathname.endsWith('.json')
+    DYNAMIC_RESOURCE.test(url.pathname)
   ) {
     event.respondWith(
       caches.open(CACHE_NAME).then(cache => {
