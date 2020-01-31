@@ -38,6 +38,15 @@ module.exports = {
   // 빌드시 소스맵 파일 생성 안함
   productionSourceMap: false,
   publicPath: process.env.NODE_ENV === 'development' ? '/' : '/dist',
+  // 개발 프록시 서버 설정
+  devServer: {
+    proxy: `http://localhost:8080`,
+    port: 8081,
+    headers: {
+      'Access-Control-Allow-Origin': '*',
+      'Access-Control-Allow-Headers': 'Origin, X-Requested-With, Content-Type, Accept'
+    }
+  },
   chainWebpack: config => {
     config
       .plugin('define')
