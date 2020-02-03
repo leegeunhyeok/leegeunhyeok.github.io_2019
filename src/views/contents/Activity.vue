@@ -1,17 +1,50 @@
 <template>
-  <div class="activity" id="activity">
-    <div class="activity__title">Career</div>
-    <ul class="career">
-      <li class="career__line" v-for="(c, i) in career" :key="i">
-        <div class="career__item">
-          <h2 class="career__item__title">{{ c.name }}, {{ c.dept }}</h2>
-          <p class="career__item__date">{{ c.period }}</p>
-          <div class="career__item__content">
-            {{ c.work }}
+  <div class="activity-content" id="activity">
+    <div class="activity-content__wrap">
+      <div class="activity-content__title">&lt; Career &gt;</div>
+      <ul class="career">
+        <li class="career__line" v-for="(c, i) in career" :key="i">
+          <div class="career__item">
+            <h2 class="career__item__title">{{ c.name }}, {{ c.dept }}</h2>
+            <p class="career__item__date">{{ c.period }}</p>
+            <div class="career__item__content">
+              {{ c.work }}
+            </div>
+          </div>
+        </li>
+      </ul>
+    </div>
+    <div class="activity-content__wrap">
+      <div class="activity-content__title">&lt; Awards &gt;</div>
+      <div class="awards" ref="awards">
+        <div class="awards__item" v-for="(a, i) in awards"
+          :class="{
+            fog: awardsOffset[i] <= scroll
+          }"
+          :ref="'a' + i"
+          :key="i"
+        >
+          <h2 class="awards__item__title">{{ a.title }}</h2>
+          <h2 class="awards__item__grade">{{ a.grade }}</h2>
+          <p class="awards__item__date">{{ a.date }}</p>
+          <div class="awards__item__content">
+            {{ a.description }}
           </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
+    <div class="activity-content__wrap">
+      <div class="activity-content__title">&lt; Activity &gt;</div>
+      <div class="activity">
+        <div class="activity__item" v-for="(a, i) in activity" :key="i">
+          <h2 class="activity__item__title">{{ a.title }}</h2>
+          <p class="activity__item__date">{{ a.date }}</p>
+          <div class="activity__item__content">
+            {{ a.description }}
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -19,7 +52,15 @@
 export default {
   name: 'activityContent',
   props: {
-    data: Object
+    data: Object,
+    scroll: Number
+  },
+  data () {
+    return {
+      transform: [],
+      awardsOffset: [],
+      sticky: false
+    }
   },
   computed: {
     career () {
@@ -31,6 +72,24 @@ export default {
     activity () {
       return this.data.activity
     }
+  },
+  mounted () {
+    this.updateAwardsOffset()
+    window.addEventListener('resize', this.updateAwardsOffset)
+  },
+  beforeDestroy () {
+    window.removeEventListener('resize', this.updateAwardsOffset)
+  },
+  methods: {
+    updateAwardsOffset () {
+      this.awardsOffset = new Array(this.data.awards.length).fill(0)
+      this.data.awards.forEach((_, i) => {
+        const offsetTop = this.$refs['a' + i][0].getBoundingClientRect().top
+        const scrollTop = window.pageYOffset ||
+          document.documentElement.scrollTop
+        this.awardsOffset[i] = offsetTop + scrollTop
+      })
+    }
   }
 }
 </script>
@@ -38,34 +97,12 @@ export default {
 <style scoped lang="scss">
 @import '@/styles/common.scss';
 
-.activity {
+.activity-content {
   text-align: center;
 
-  @mixin item {
-    margin-top: 2rem;
-    color: transparentize($text, 0.3);
-
-    &__title {
-      color: $text;
-      word-break: keep-all;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-
-      &:visited {
-        color: inherit;
-      }
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
-  }
-
-  &__item {
-    @include item;
+  &__wrap {
+    position: relative;
+    padding: 2rem 0;
   }
 
   &__title {
@@ -93,19 +130,13 @@ export default {
 }
 
 @mixin career-start-line {
-  -webkit-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
-  -moz-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
-  -ms-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
-  -o-background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0%, lighten($text, 50%) 8%);
+  -webkit-background: -webkit-linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, lighten($primary, 30%) 8%);
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 1) 0%, lighten($primary, 30%) 8%);
 }
 
 @mixin career-end-line {
-  -webkit-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
-  -moz-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
-  -ms-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
-  -o-background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
-  background: linear-gradient(to bottom, lighten($text, 50%) 92%, rgba(0, 0, 0, 0) 100%);
+  -webkit-background: -webkit-linear-gradient(to bottom, lighten($primary, 30%) 92%, rgba(255, 255, 255, 1) 100%);
+  background: linear-gradient(to bottom, lighten($primary, 30%) 92%, rgba(255, 255, 255, 1) 100%);
 }
 
 .career {
@@ -120,7 +151,7 @@ export default {
     width: 6px;
     margin: auto;
     padding: 2rem 0;
-    background-color: lighten($text, 50%);
+    background-color: lighten($primary, 30%);
 
     &:nth-child(1) {
       @include career-start-line;
@@ -143,7 +174,7 @@ export default {
       margin: 0;
       width: 100%;
       background: none !important;
-      border-left: 6px solid lighten($text, 50%);
+      border-left: 6px solid lighten($primary, 30%);
     }
 
     &:nth-child(even) .career__item{
@@ -195,6 +226,74 @@ export default {
 
     &__date {
       margin-top: 0;
+      color: lighten($text, 30%);
+    }
+
+    &__content {
+      color: lighten($text, 5%);
+    }
+  }
+}
+
+.awards {
+  position: relative;
+  padding: 0;
+
+  &__item {
+    width: 100%;
+    padding: 1rem;
+    text-align: center;
+    border-bottom: 1px solid $secondary;
+    -webkit-transition: .75s;
+            transition: .75s;
+
+    &.fog {
+      opacity: .2;
+    }
+
+    &__title {
+      margin: 0;
+      word-break: keep-all;
+      color: #000;
+    }
+
+    &__grade {
+      display: inline-block;
+      background-color: $primary;
+      padding: .5rem 1rem;
+      border-radius: 2rem;
+      color: #fff;
+      font-size: 1.2rem;
+      word-break: keep-all;
+    }
+
+    &__date {
+      margin-top: 0;
+      margin-bottom: .6rem;
+      color: lighten($text, 30%);
+    }
+
+    &__content {
+      color: lighten($text, 10%);
+    }
+  }
+}
+
+.activity {
+  &__item {
+    position: relative;
+    width: 100%;
+    padding: 0 2rem;
+    text-align: center;
+
+    &__title {
+      margin-bottom: 0;
+      word-break: keep-all;
+    }
+
+    &__date {
+      margin-top: 0;
+      margin-bottom: .6rem;
       color: lighten($text, 30%);
     }
 
