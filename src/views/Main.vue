@@ -9,14 +9,14 @@
         >
         </span>
         <br>
-        <p>Code is my life.</p>
+        <p>Programming is my life</p>
       </div>
     </div>
     <div class="main__content--delay">
       <About @message="onMessage"/>
     </div>
     <div class="main__content">
-      <Activity :data="activity" @message="onMessage"/>
+      <Activity :data="activity" :scroll="scrollY" @message="onMessage"/>
     </div>
     <Message :message="alertMessage" v-show="showAlertMessage"/>
   </div>
@@ -32,7 +32,7 @@ import { delay } from '@/util'
 const MESSAGE_LIST = [
   'Hello, World!',
   'Developer',
-  'Programmer'
+  'Front-End'
 ]
 
 export default {
@@ -55,7 +55,8 @@ export default {
       messageIndex: 0,
       messageWriting: true,
       activity: [],
-      project: []
+      project: [],
+      scrollY: 0
     }
   },
   created () {
@@ -66,6 +67,7 @@ export default {
   mounted () {
     setTimeout(this.updateMessage, 500)
     window.addEventListener('scroll', this.onScroll)
+    this.onScroll()
   },
   beforeDestroy () {
     window.removeEventListener('scroll', this.onScroll)
@@ -122,6 +124,9 @@ export default {
           this.showAlertMessage = false
         }, 3000)
       }
+    },
+    onScroll () {
+      this.scrollY = window.scrollY
     }
   }
 }
@@ -182,7 +187,6 @@ export default {
     width: 100%;
     max-width: 800px;
     margin: auto;
-    margin-bottom: 3rem;
     padding: 2rem 1rem;
 
     &__title {
@@ -190,6 +194,7 @@ export default {
       font-size: 2rem;
       font-weight: bold;
       color: $text;
+      margin-top: 2rem;
       margin-bottom: 2rem;
     }
   }
