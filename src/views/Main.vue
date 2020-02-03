@@ -18,6 +18,9 @@
     <div class="main__content">
       <Activity :data="activity" :scroll="scrollY" @message="onMessage"/>
     </div>
+    <div class="main__content--center">
+      <img class="pwa-available" src="/images/pwa.png">
+    </div>
     <Message :message="alertMessage" v-show="showAlertMessage"/>
   </div>
 </template>
@@ -208,7 +211,17 @@ export default {
       -webkit-animation: fade 1s .5s forwards;
               animation: fade 1s .5s forwards;
     }
+
+    &--center {
+      @include content;
+      text-align: center;
+    }
   }
+}
+
+.pwa-available {
+  max-width: 250px;
+  width: 100%;
 }
 
 @keyframes blink {
