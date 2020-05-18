@@ -1,0 +1,20 @@
+{
+  "name": "Simple home",
+  "short_name": "Home",
+  "icons": [
+    {
+      "src": "/pages/home/img/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/pages/home/img/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/pages/home",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2f373d"
+}
