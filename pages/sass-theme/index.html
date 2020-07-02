@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>SASS Theme</title>
+    <link rel="stylesheet" href="./css/index.css">
+  </head>
+  <body>
+    <div id="app">
+      <div>
+        <h2>SASS Theme</h2>
+        <a href="https://github.com/leegeunhyeok/sass-theme-example">View code</a>
+        <button id="toggle">Toggle</button>
+      </div>
+    </div>
+    <script>
+
+      window.onload = function () {
+        document.getElementById('toggle').onclick = function () {
+          var isDark = document.body.classList.contains('dark');
+          document.body.setAttribute('class', isDark ? 'light' : 'dark');
+        };
+      };
+
+    </script>
+  </body>
+</html>

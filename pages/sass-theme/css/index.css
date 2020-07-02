@@ -1,0 +1,109 @@
+html, body {
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0; }
+
+body {
+  font-family: "-apple-system", "BlinkMacSystemFont","Apple SD Gothic Neo", "Inter", "Spoqa Han Sans", "Segoe UI", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", Sans-Serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+body #app {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  -webkit-transition: .3s;
+  transition: .3s; }
+  body #app div {
+    text-align: center; }
+    body #app div h2 {
+      color: #000; }
+    body #app div a {
+      cursor: pointer;
+      display: block;
+      margin: 1rem 0;
+      color: #888;
+      font-weight: bold;
+      text-decoration: none; }
+      body #app div a:hover {
+        text-decoration: underline; }
+    body #app div button {
+      cursor: pointer;
+      outline: none;
+      border: none;
+      border-radius: 1rem;
+      padding: .5rem 1rem;
+      color: #fff;
+      background-color: #0071E3; }
+      body #app div button:hover {
+        background-color: #004b97; }
+
+body.light #app {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: #fff;
+  justify-content: center;
+  align-items: center;
+  -webkit-transition: .3s;
+  transition: .3s; }
+  body.light #app div {
+    text-align: center; }
+    body.light #app div h2 {
+      color: #000; }
+    body.light #app div a {
+      cursor: pointer;
+      display: block;
+      margin: 1rem 0;
+      color: #888;
+      font-weight: bold;
+      text-decoration: none; }
+      body.light #app div a:hover {
+        text-decoration: underline; }
+    body.light #app div button {
+      cursor: pointer;
+      outline: none;
+      border: none;
+      border-radius: 1rem;
+      padding: .5rem 1rem;
+      color: #fff;
+      background-color: #0071E3; }
+      body.light #app div button:hover {
+        background-color: #004b97; }
+
+body.dark #app {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  background-color: #131218;
+  justify-content: center;
+  align-items: center;
+  -webkit-transition: .3s;
+  transition: .3s; }
+  body.dark #app div {
+    text-align: center; }
+    body.dark #app div h2 {
+      color: #fff; }
+    body.dark #app div a {
+      cursor: pointer;
+      display: block;
+      margin: 1rem 0;
+      color: #888;
+      font-weight: bold;
+      text-decoration: none; }
+      body.dark #app div a:hover {
+        text-decoration: underline; }
+    body.dark #app div button {
+      cursor: pointer;
+      outline: none;
+      border: none;
+      border-radius: 1rem;
+      padding: .5rem 1rem;
+      color: #fff;
+      background-color: #0071E3; }
+      body.dark #app div button:hover {
+        background-color: #004b97; }
